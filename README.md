@@ -45,7 +45,7 @@ Spam-SMS-Classifier
 └── Spam_Detection_Using_NLP.ipynb # Jupyter notebook
 ```
 
-## Setup and Installation
+## Setup and Installation(after unzipping the folder)
 
 1. Clone this repository:
    ```
