@@ -21,7 +21,9 @@
             <div class="confidence-meter mt-3">
                 <p class="mb-2">Confidence: <strong>{{ confidence }}</strong></p>
                 <div class="progress" style="height: 25px;">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ confidence_percent }}%" aria-valuenow="{{ confidence_percent }}" aria-valuemin="0" aria-valuemax="100">{{ confidence }}</div>
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ confidence_percent }}%" aria-valuenow="{{ confidence_percent }}" aria-valuemin="0" aria-valuemax="100">
+                        {{ confidence }}
+                    </div>
                 </div>
             </div>
             {% endif %}
@@ -34,7 +36,9 @@
             <div class="confidence-meter mt-3">
                 <p class="mb-2">Confidence: <strong>{{ confidence }}</strong></p>
                 <div class="progress" style="height: 25px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ confidence_percent }}%" aria-valuenow="{{ confidence_percent }}" aria-valuemin="0" aria-valuemax="100">{{ confidence }}</div>
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ confidence_percent }}%" aria-valuenow="{{ confidence_percent }}" aria-valuemin="0" aria-valuemax="100">
+                        {{ confidence }}
+                    </div>
                 </div>
             </div>
             {% endif %}
@@ -53,6 +57,13 @@
                 <p>{{ message }}</p>
             </div>
         </div>
+        
+        <div class="feedback-box text-center mb-4">
+            <p class="mb-2"><strong>Was this prediction correct?</strong></p>
+            <button class="btn btn-success btn-sm" onclick="sendFeedback('correct')">✓ Correct</button>
+            <button class="btn btn-danger btn-sm" onclick="sendFeedback('incorrect')">✗ Incorrect</button>
+            <div id="feedback-message" class="mt-2"></div>
+        </div>
         {% endif %}
 
         <div class="text-center">
@@ -67,6 +78,41 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const prediction = "{{ prediction }}";
+        const message = "{{ message }}";
+        const confidence = {{ confidence_percent }};
+        
+        function sendFeedback(type) {
+            let userLabel;
+            if (type === 'correct') {
+                userLabel = prediction === 'Spam' ? 'spam' : 'ham';
+            } else {
+                userLabel = prediction === 'Spam' ? 'ham' : 'spam';
+            }
+            
+            fetch('/feedback', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    message: message,
+                    predicted: prediction,
+                    user_label: userLabel,
+                    confidence: confidence
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('feedback-message').innerHTML = 
+                    '<span class="text-success">' + data.message + '</span>';
+                document.querySelectorAll('.feedback-box button').forEach(btn => btn.disabled = true);
+            })
+            .catch(error => {
+                document.getElementById('feedback-message').innerHTML = 
+                    '<span class="text-danger">Error saving feedback</span>';
+            });
+        }
+    </script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

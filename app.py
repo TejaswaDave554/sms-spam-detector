@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_talisman import Talisman
@@ -12,6 +12,7 @@ import logging
 from functools import lru_cache
 from threading import Lock
 from dotenv import load_dotenv
+from database import init_db, save_feedback
 
 # Load environment variables
 load_dotenv()
@@ -31,7 +32,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024  # 16KB max request size
 # Security headers
 csp = {
     'default-src': "'self'",
-    'style-src': ["'self'", 'https://stackpath.bootstrapcdn.com'],
+    'style-src': ["'self'", "'unsafe-inline'", 'https://stackpath.bootstrapcdn.com'],
     'script-src': ["'self'", 'https://code.jquery.com', 'https://cdn.jsdelivr.net', 'https://stackpath.bootstrapcdn.com'],
     'font-src': ["'self'", 'https://stackpath.bootstrapcdn.com']
 }
@@ -130,6 +131,8 @@ def predict():
         confidence_percent = int(confidence * 100)
         confidence_str = f"{confidence:.2%}"
         
+        logger.info(f"Confidence: {confidence}, Percent: {confidence_percent}, String: {confidence_str}")
+        
         result = 'Spam' if prediction[0] == 1 else 'Not Spam'
         return render_template('result.html', prediction=result, message=message, confidence=confidence_str, confidence_percent=confidence_percent)
         
@@ -140,9 +143,25 @@ def predict():
         logger.error(f"Prediction error: {e}")
         return render_template('result.html', prediction='Error', message='An error occurred'), 500
 
-@app.route('/about')
-def about():
-    return render_template('spam.html')
+@app.route('/feedback', methods=['POST'])
+@limiter.limit("20 per minute")
+def feedback():
+    try:
+        data = request.get_json()
+        message = data.get('message')
+        predicted = data.get('predicted')
+        user_label = data.get('user_label')
+        confidence = data.get('confidence')
+        
+        predicted_int = 1 if predicted == 'Spam' else 0
+        user_int = 1 if user_label == 'spam' else 0
+        
+        save_feedback(message, predicted_int, user_int, confidence)
+        
+        return jsonify({'status': 'success', 'message': 'Thank you for your feedback!'}), 200
+    except Exception as e:
+        logger.error(f"Feedback error: {e}")
+        return jsonify({'status': 'error', 'message': 'Failed to save feedback'}), 500
 
 @app.route('/health')
 def health():
@@ -161,7 +180,12 @@ def ratelimit_handler(e):
 def request_entity_too_large(e):
     return render_template('result.html', prediction='Error', message='Request too large'), 413
 
+@app.route('/about')
+def about():
+    return render_template('spam.html')
+
 if __name__ == '__main__':
+    init_db()
     init_nltk()
     load_model()
     
