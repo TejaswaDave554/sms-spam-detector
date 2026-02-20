@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result - SMS Spam Detector</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Prediction Result</h1>
+        </div>
+
+        {% if prediction == 'Spam' %}
+        <div class="result-box spam">
+            <h2>This message is classified as SPAM!</h2>
+            <p>This message contains characteristics commonly found in spam messages.</p>
+            {% if confidence %}
+            <div class="confidence-meter mt-3">
+                <p class="mb-2">Confidence: <strong>{{ confidence }}</strong></p>
+                <div class="progress" style="height: 25px;">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ confidence_percent }}%" aria-valuenow="{{ confidence_percent }}" aria-valuemin="0" aria-valuemax="100">{{ confidence }}</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% elif prediction == 'Not Spam' %}
+        <div class="result-box not-spam">
+            <h2>This message is NOT Spam</h2>
+            <p>This message appears to be legitimate.</p>
+            {% if confidence %}
+            <div class="confidence-meter mt-3">
+                <p class="mb-2">Confidence: <strong>{{ confidence }}</strong></p>
+                <div class="progress" style="height: 25px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ confidence_percent }}%" aria-valuenow="{{ confidence_percent }}" aria-valuemin="0" aria-valuemax="100">{{ confidence }}</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="result-box error">
+            <h2>Error in prediction</h2>
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+
+        {% if prediction != 'Error' %}
+        <div class="message-box">
+            <h3>Message Content:</h3>
+            <div class="message-content">
+                <p>{{ message }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="text-center">
+            <a href="{{ url_for('home') }}" class="btn btn-primary">Check Another Message</a>
+        </div>
+
+        <div class="footer">
+            <p>Powered by Natural Language Processing &amp; Machine Learning</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+/* Custom styles for SMS Spam Detector application */
+
+:root {
+    --primary-color: #007bff;
+    --primary-hover: #0069d9;
+    --secondary-color: #6c757d;
+    --light-bg: #f8f9fa;
+    --dark-text: #343a40;
+    --spam-bg: #f8d7da;
+    --spam-border: #f5c6cb;
+    --spam-text: #721c24;
+    --ham-bg: #d4edda;
+    --ham-border: #c3e6cb;
+    --ham-text: #155724;
+    --info-bg: #e9f7fe;
+    --info-border: #bee5eb;
+    --info-text: #0c5460;
+}
+
+body {
+    background-color: var(--light-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-text);
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.header p {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+/* Form styling */
+.form-group label {
+    font-weight: 600;
+    color: #495057;
+}
+
+textarea.form-control {
+    resize: none;
+    height: 150px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+textarea.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    font-weight: 600;
+    padding: 10px 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Result page styling */
+.result-box {
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.spam {
+    background-color: var(--spam-bg);
+    border: 1px solid var(--spam-border);
+}
+
+.spam h2 {
+    color: var(--spam-text);
+    font-weight: bold;
+}
+
+.not-spam {
+    background-color: var(--ham-bg);
+    border: 1px solid var(--ham-border);
+}
+
+.not-spam h2 {
+    color: var(--ham-text);
+    font-weight: bold;
+}
+
+.error {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+}
+
+.error h2 {
+    color: #856404;
+    font-weight: bold;
+}
+
+.message-box {
+    background-color: var(--light-bg);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+    margin-bottom: 30px;
+}
+
+.message-box h3 {
+    color: #495057;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.message-content {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+/* Info boxes for the about page */
+.info-box {
+    background-color: var(--info-bg);
+    border: 1px solid var(--info-border);
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.info-box h3 {
+    color: var(--info-text);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.technical-details {
+    background-color: var(--light-bg);
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 30px;
+    border: 1px solid #dee2e6;
+}
+
+/* Footer styling */
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+}
+
+/* Links */
+.about-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.about-link:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px 10px;
+        padding: 20px;
+    }
+}

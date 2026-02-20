@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About SMS Spam Detection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>About SMS Spam Detection</h1>
+        </div>
+
+        <div class="content">
+            <h2>What is SMS Spam?</h2>
+            <p>
+                SMS spam refers to unsolicited or unwanted text messages sent to mobile phones. These messages often contain
+                advertisements, phishing attempts, scams, or other unwanted content. They can be annoying, misleading,
+                and potentially harmful if they contain links to malicious websites or attempt to steal personal information.
+            </p>
+
+            <div class="info-box">
+                <h3>Common Types of SMS Spam</h3>
+                <ul>
+                    <li><strong>Marketing spam:</strong> Unwanted advertisements or promotional messages</li>
+                    <li><strong>Phishing attempts:</strong> Messages trying to trick you into revealing personal information</li>
+                    <li><strong>Contest/lottery scams:</strong> False claims about winning prizes that require payment to claim</li>
+                    <li><strong>Financial scams:</strong> Messages about banking issues, loan offers, or credit card problems</li>
+                </ul>
+            </div>
+
+            <h2>How Our Spam Detector Works</h2>
+            <p>
+                Our SMS spam detector uses Natural Language Processing (NLP) and Machine Learning techniques to analyze the
+                content of text messages. The system has been trained on thousands of example messages labeled as either spam or
+                legitimate (ham) to identify patterns and characteristics that are typical of spam messages.
+            </p>
+
+            <h2>Key Features of Spam Messages</h2>
+            <ul>
+                <li><strong>Urgency:</strong> Messages that create a sense of urgency (e.g., "Act now!", "Limited time offer")</li>
+                <li><strong>Too good to be true:</strong> Promises of money, prizes, or incredible deals</li>
+                <li><strong>Unusual formatting:</strong> ALL CAPS, excessive punctuation (!!!) or strange symbols</li>
+                <li><strong>Requesting personal information:</strong> Asking for account details, passwords, or personal data</li>
+                <li><strong>Suspicious links:</strong> Messages containing shortened URLs or suspicious websites</li>
+                <li><strong>Poor grammar and spelling:</strong> Many spam messages contain errors or unusual phrasing</li>
+            </ul>
+
+            <h2>Protecting Yourself from SMS Spam</h2>
+            <ul>
+                <li>Never click on links in suspicious messages</li>
+                <li>Don't reply to unknown senders, even to say "STOP"</li>
+                <li>Never provide personal or financial information in response to a text message</li>
+                <li>Report spam messages to your mobile carrier</li>
+                <li>Use spam filtering tools and apps</li>
+            </ul>
+
+            <div class="technical-details">
+                <h2>Technical Implementation</h2>
+                <p>Our spam detection system is built using the following technologies:</p>
+                <ul>
+                    <li><strong>Python:</strong> The core programming language</li>
+                    <li><strong>NLTK (Natural Language Toolkit):</strong> For text processing and analysis</li>
+                    <li><strong>Scikit-learn:</strong> For machine learning algorithms</li>
+                    <li><strong>Flask:</strong> For web application development</li>
+                </ul>
+                <p>The system uses a Multinomial Naive Bayes classifier, which is particularly effective for text classification tasks. The text processing pipeline includes:</p>
+                <ul>
+                    <li>Tokenization - Breaking the text into individual words</li>
+                    <li>Removing stopwords - Eliminating common words that don't add meaning</li>
+                    <li>Stemming - Reducing words to their root form</li>
+                    <li>Vectorization - Converting text to numerical features</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('home') }}" class="btn btn-primary">Back to Spam Detector</a>
+        </div>
+
+        <div class="footer">
+            <p>Powered by Natural Language Processing &amp; Machine Learning</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

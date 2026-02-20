@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Missing - SMS Spam Detector</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SMS Spam Detector</h1>
+            <p>Model Files Missing</p>
+        </div>
+
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Model Not Found!</h4>
+            <p>The trained model files required for spam detection were not found. You need to train the model first:</p>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">How to Train the Model</h5>
+            </div>
+            <div class="card-body">
+                <ol>
+                    <li>Ensure you have the SMS spam dataset file <code>Spam SMS Collection</code> in the project directory</li>
+                    <li>Run the Jupyter notebook <code>Spam_Detection_Using_NLP.ipynb</code> to train the model</li>
+                    <li>Make sure the following files are generated:
+                        <ul>
+                            <li><code>spam-sms-mnb-model.pkl</code> - The trained model</li>
+                            <li><code>cv-transform.pkl</code> - The CountVectorizer for text transformation</li>
+                        </ul>
+                    </li>
+                    <li>Restart the Flask application</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Training the Model with Python Code</h5>
+            </div>
+            <div class="card-body">
+                <p>If you can't run the Jupyter notebook, you can use the following Python code to train the model:</p>
+                <pre class="bg-light p-3 rounded"><code>import pandas as pd
+import pickle
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+import string
+
+nltk.download('stopwords')
+nltk.download('punkt')
+
+def preprocess_text(text):
+    text = text.lower()
+    text = ''.join([char for char in text if char not in string.punctuation])
+    tokens = nltk.word_tokenize(text)
+    stop_words = set(stopwords.words('english'))
+    tokens = [word for word in tokens if word not in stop_words]
+    stemmer = PorterStemmer()
+    tokens = [stemmer.stem(word) for word in tokens]
+    return ' '.join(tokens)
+
+# Load the dataset
+df = pd.read_csv('Spam SMS Collection', sep='\t', names=['label', 'message'])
+
+# Preprocess data
+df['cleaned_message'] = df['message'].apply(preprocess_text)
+
+# Convert labels to binary
+df['label'] = df['label'].map({'ham': 0, 'spam': 1})
+
+# Create a CountVectorizer
+cv = CountVectorizer()
+
+# Fit and transform the preprocessed messages
+X = cv.fit_transform(df['cleaned_message']).toarray()
+y = df['label'].values
+
+# Train the model
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+model = MultinomialNB()
+model.fit(X_train, y_train)
+
+# Save the model and vectorizer
+pickle.dump(cv, open('cv-transform.pkl', 'wb'))
+pickle.dump(model, open('spam-sms-mnb-model.pkl', 'wb'))
+
+print("Model and vectorizer saved successfully!")</code></pre>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('about') }}" class="btn btn-outline-primary">Learn About SMS Spam Detection</a>
+        </div>
+
+        <div class="footer">
+            <p>Powered by Natural Language Processing &amp; Machine Learning</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

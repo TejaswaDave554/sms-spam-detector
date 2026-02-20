@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Spam Detector</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SMS Spam Detector</h1>
+            <p>Enter a message to check if it's spam or not</p>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Example Messages</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text small">Click any example to test:</p>
+                <div id="example-messages" class="d-flex flex-wrap"></div>
+            </div>
+        </div>
+
+        <form action="{{ url_for('predict') }}" method="post">
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea class="form-control" id="message" name="message" placeholder="Type or paste an SMS message here..." required></textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Check Message</button>
+            </div>
+        </form>
+
+        <a href="{{ url_for('about') }}" class="about-link">Learn about SMS Spam Detection</a>
+
+        <div class="footer">
+            <p>Powered by Natural Language Processing &amp; Machine Learning</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
