@@ -33,7 +33,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024  # 16KB max request size
 csp = {
     'default-src': "'self'",
     'style-src': ["'self'", "'unsafe-inline'", 'https://stackpath.bootstrapcdn.com'],
-    'script-src': ["'self'", 'https://code.jquery.com', 'https://cdn.jsdelivr.net', 'https://stackpath.bootstrapcdn.com'],
+    'script-src': ["'self'", "'unsafe-inline'", 'https://code.jquery.com', 'https://cdn.jsdelivr.net', 'https://stackpath.bootstrapcdn.com'],
     'font-src': ["'self'", 'https://stackpath.bootstrapcdn.com']
 }
 Talisman(app, content_security_policy=csp, force_https=os.environ.get('FLASK_ENV') == 'production')
